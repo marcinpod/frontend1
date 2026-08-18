@@ -19,3 +19,12 @@ steps:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker build -t frontend1:${CI_COMMIT_SHA} .
+
+  deploy:
+    image: docker:29-cli
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/frontend1:/deploy:ro
+    commands:
+      - IMAGE_TAG=${CI_COMMIT_SHA} docker compose -f /deploy/compose.yaml up -d
+      - docker ps --filter name=frontend1
