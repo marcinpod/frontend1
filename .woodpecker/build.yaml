@@ -41,4 +41,5 @@ steps:
       - printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
       - chmod 600 ~/.ssh/id_ed25519
       - ssh-keyscan -H 172.19.0.1 >> ~/.ssh/known_hosts
+      - ssh -i ~/.ssh/id_ed25519 ci-deploy@172.19.0.1 "docker ps"
       - ssh -i ~/.ssh/id_ed25519 ci-deploy@172.19.0.1 "deploy-app frontend1 ${CI_COMMIT_SHA}"
