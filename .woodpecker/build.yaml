@@ -1,0 +1,18 @@
+steps:
+  install:
+    image: node:22-alpine
+    commands:
+      - npm ci
+
+  build:
+    image: node:22-alpine
+    commands:
+      - npm run build
+      - ls -la dist/frontend1/browser
+
+  docker-build:
+    image: docker:29-cli
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker build -t frontend1:${CI_COMMIT_SHA} .
